@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components/macro';
+import styled, { keyframes } from 'styled-components/macro';
 
 import { WEIGHTS } from '../../constants';
 import { formatPrice, pluralize, isNewShoe } from '../../utils';
@@ -35,7 +35,9 @@ const ShoeCard = ({
     <Link href={`/shoe/${slug}`}>
       <Wrapper>
         <ImageWrapper>
+        <ImageFrame>
           <Image alt="" src={imageSrc} />
+        </ImageFrame>
           {variant === 'on-sale' && <SaleFlag>Sale</SaleFlag>}
           {variant === 'new-release' && (
             <NewFlag>Just released!</NewFlag>
@@ -68,6 +70,18 @@ const ShoeCard = ({
   );
 };
 
+const turn = keyframes`
+  0% {
+    transform: rotate(0) scale(1);
+  }
+  50% {
+    transform: rotate(4deg) scale(1.05);
+  }
+  100% {
+    transform: rotate(0) scale(1.1);
+  }
+`;
+
 const Link = styled.a`
   text-decoration: none;
   color: inherit;
@@ -77,11 +91,27 @@ const Wrapper = styled.article``;
 
 const ImageWrapper = styled.div`
   position: relative;
+  &:hover {
+    img {
+      transform: scale(1.1);
+      transition: transform 0.2s, filter 0.6s;
+      animation: ${turn} 0.3s linear;
+    }
+  }
+`;
+
+const ImageFrame = styled.div`
+  border-radius: 16px 16px 4px 4px;
+  overflow: hidden;
 `;
 
 const Image = styled.img`
   width: 100%;
   border-radius: 16px 16px 4px 4px;
+  transition: transform 0.6s, filter 1s;
+  will-change: transform;
+  transform-origin: center bottom;
+  animation-fill-mode: forwards;
 `;
 
 const Row = styled.div`
