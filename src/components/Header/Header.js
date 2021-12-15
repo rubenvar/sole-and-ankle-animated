@@ -20,12 +20,39 @@ const Header = () => {
           <Logo />
         </LogoWrapper>
         <DesktopNav>
-          <NavLink href="/sale">Sale</NavLink>
-          <NavLink href="/new">New&nbsp;Releases</NavLink>
-          <NavLink href="/men">Men</NavLink>
-          <NavLink href="/women">Women</NavLink>
-          <NavLink href="/kids">Kids</NavLink>
-          <NavLink href="/collections">Collections</NavLink>
+          <NavLink href="/sale">
+            <span>
+              <span className="shown">Sale</span>
+              <span className="hidden">Sale</span>
+            </span>
+          </NavLink>
+          <NavLink href="/new" className="different">
+            <span>New Releases</span>
+          </NavLink>
+          <NavLink href="/men">
+            <span>
+              <span className="shown">Men</span>
+              <span className="hidden">Men</span>
+            </span>
+          </NavLink>
+          <NavLink href="/women">
+            <span>
+              <span className="shown">Women</span>
+              <span className="hidden">Women</span>
+            </span>
+          </NavLink>
+          <NavLink href="/kids">
+            <span>
+              <span className="shown">Kids</span>
+              <span className="hidden">Kids</span>
+            </span>
+          </NavLink>
+          <NavLink href="/collections">
+            <span>
+              <span className="shown">Collections</span>
+              <span className="hidden">Collections</span>
+            </span>
+          </NavLink>
         </DesktopNav>
         <MobileActions>
           <ShoppingBagButton>
@@ -120,9 +147,61 @@ const NavLink = styled.a`
   text-decoration: none;
   color: var(--color-gray-900);
   font-weight: ${WEIGHTS.medium};
-
+  position: relative;
+  
   &:first-of-type {
     color: var(--color-secondary);
+  }
+
+  &:not(.different) {
+  overflow: hidden;
+
+    span {
+      display: block;
+      &.hidden {
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform: translateY(24px);
+        font-weight: 700;
+      }
+    }
+
+    > span {
+      transition: transform 0.45s;
+    }
+    &:hover {
+      > span {
+        transition: transform 0.25s;
+        transform: translateY(-22px);
+      }
+    }
+  }
+
+  &.different {
+    span {
+      display: block;
+      position: relative;
+      &::before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        background: var(--color-gray-700);
+        width: 100%;
+        height: 5px;
+        opacity: 0;
+        transition: opacity 0.2s, transform 0.3s;
+      }
+    }
+    &:hover {
+      span {
+        &::before {
+          opacity: 1;
+          transform: translateY(5px);
+        }
+      }
+    }
   }
 `;
 
